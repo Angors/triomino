@@ -2,14 +2,14 @@ package projet;
 
 public class plateau_frontiere {
 	
-	int frontiere[]; // Tableau d'entier qui stock les valeurs des triominos qui se trouvent a la frontiere
+	face frontiere[]; // Tableau d'entier qui stock les valeurs des triominos qui se trouvent a la frontiere
 	int length; // Nombre d'element dans la frontiere
 
 	// Constructeur
 	public plateau_frontiere()
 	{
 		length = 28; 
-		frontiere = new int[length];
+		frontiere = new face[length];
 	}
 
 	// Methode
@@ -21,5 +21,7 @@ public class plateau_frontiere {
 			System.out.println(A.frontiere[i]);
 		}
 	}
+	
+	
 
 }

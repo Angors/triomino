@@ -7,6 +7,8 @@ public class SkipListEntry {
 	public String key;
 	public face value;
 	
+	int pos;
+	
 	public SkipListEntry up;
 	public SkipListEntry down;
 	public SkipListEntry left;
@@ -27,8 +29,9 @@ public class SkipListEntry {
 	  public face getValue() 
 	  { 
 	    return value; 
+	    
 	  }
-
+	  
 	  public String getKey() 
 	  { return key; 
 	  }
@@ -40,7 +43,7 @@ public class SkipListEntry {
 	    value = face;
 	    return temp;
 	  }
-/*
+
 	  public boolean equals(Object o) 
 	  {
 	    SkipListEntry ent;
@@ -55,9 +58,10 @@ public class SkipListEntry {
 
 	    return (ent.getKey() == key) && (ent.getValue() == value);
 	  }
-*/
+
 	  public String toString() 
 	  {
 	    return "(" + key + "," + value + ")";
 	  }
+	  
 }
