@@ -27,33 +27,56 @@ public class main {
 		if (sd == 1)
 		{
 			System.out.println("Skip-List choisi");
-			System.out.println("Votre plateau sera-t-il deja rempli ? Ecrivez '0' ou le nombre de triomino que vous voulez saisir . ");
+		
+			//__________________________PLATEAU REMPLI___________________//
+			plateau_SL Jeu = new plateau_SL();
+				
+			System.out.println("Nombre de triominos a placer :");
+			
 			int rempli = scan.nextInt();
 			
-			if (rempli != 0) 
-			{
-				//__________________________PLATEAU REMPLI___________________//
-				plateau Jeu = new plateau(rempli);
-				
-				System.out.println(Jeu.cote_libre.nbTrio); // retourne 0
-				
-				triomino test = new triomino(1,5,2);
-				triomino test1 = new triomino(2,5,2);
-				triomino test2 = new triomino(3,4,2);
-				triomino test3 = new triomino(4,5,2);
-				
-				System.out.println(Jeu.plat[0][0].get_ne().getX());
-				System.out.println(Jeu.plat[0][0].get_ne().getY()); // retourne bien -1, case vide
-				
-				
-				// On ajoute le premier triomino
-				
-				int o = 0; // nbc est a 0 car on a pas encore commencé à jouer
 			
-				o = Jeu.ajouter_SL(test,o);
-				System.out.println(Jeu.Recherche(test)); // Retourne bien true
-				System.out.println(o); // retourne correctement 3
+			for (int i = 0; i <rempli; i++)
+			{
+				int x = scan.nextInt();
+				int y = scan.nextInt();
+				int z = scan.nextInt();
 				
+				int compt = i;
+				int compt2 = i+1;
+				int compt3 = i+2;
+				
+				int coordx = scan.nextInt();
+				int coordy = scan.nextInt();
+				
+				Jeu.SaisiePlateau_test(x,y,z,coordx,coordy,compt,compt2,compt3);
+			}
+				
+			
+			System.out.println("Veuillez remplir votre pioche. Choississez le nombre de triomino");
+			rempli = scan.nextInt();
+			
+			for (int i = 0; i <rempli ;i++)
+			{
+				int x = scan.nextInt();
+				int y = scan.nextInt();
+				int z = scan.nextInt();
+				
+				P.SaisiePioche(x,y,z);
+			}
+			
+			if (P.TaillePioche() == 0)
+			{
+				System.out.println("Pioche Vide" );
+				return;
+			}
+				
+				
+			Jeu.OuPlacerTriomino();	
+			
+			
+				
+			/*	
 				o = Jeu.ajouter_SL(test1, o);
 				System.out.println(Jeu.Recherche(test1));
 				
@@ -66,13 +89,13 @@ public class main {
 				
 				Jeu.GetCellule(14, 14);
 
-				o = Jeu.ajouter_SL(test, o);
+				//o = Jeu.ajouter_SL(test, o);
 				System.out.println(o);
 				
 				Jeu.GetCellule(14, 15);
 				Jeu.GetCellule(15, 14);
 				Jeu.GetCellule(15, 15);
-				
+				*/
 				//o = Jeu.ajouter(P.get(5), o);
 				//System.out.println(o);
 				//System.out.println(Jeu.Recherche(P.get(2))); // Retourne false donc t n'a pas pu être ajouté
@@ -82,47 +105,6 @@ public class main {
 				//System.out.println(Jeu.cote_libre.n); // Retourne correctement 3
 				//System.out.println(Jeu.cote_libre.get("0")); // retourne (-oo, null)
 			
-			}
-			else
-			{
-				// ___________________ PLATEAU VIDE ___________________________//
-			plateau Jeu = new plateau(); 
-			System.out.println(Jeu.cote_libre.nbTrio); // retourne 0
-			
-			triomino test = new triomino(1,5,2);
-			
-			System.out.println(Jeu.plat[0][0].get_ne().getX());
-			System.out.println(Jeu.plat[0][0].get_ne().getY()); // retourne bien -1, case vide
-			
-			
-			// On ajoute le premier triomino
-			
-			int o = 0; // nbc est a 0 car on a pas encore commencé à jouer
-		
-			o = Jeu.ajouter_SL(test,o);
-			System.out.println(Jeu.Recherche(test)); // Retourne bien true
-			System.out.println(o); // retourne correctement 3
-			
-			Jeu.OuPlacerTriomino(o); 
-			
-			Jeu.GetCellule(14, 14);
-
-			o = Jeu.ajouter_SL(test, o);
-			System.out.println(o);
-			
-			Jeu.GetCellule(14, 15);
-			Jeu.GetCellule(15, 14);
-			Jeu.GetCellule(15, 15);
-			
-			//o = Jeu.ajouter(P.get(5), o);
-			//System.out.println(o);
-			//System.out.println(Jeu.Recherche(P.get(2))); // Retourne false donc t n'a pas pu être ajouté
-			
-			//Jeu.OuPlacerTriomino(o);
-			
-			//System.out.println(Jeu.cote_libre.n); // Retourne correctement 3
-			//System.out.println(Jeu.cote_libre.get("0")); // retourne (-oo, null)
-			}
 		} else {
 			if (sd == 2)
 			{

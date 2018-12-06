@@ -79,6 +79,8 @@ public class ABR {
 			return true;
 		}
 	}
+
+	
 	
 	//Recherche d'un element dans l'arbre
 	public face find(face key) {
@@ -237,4 +239,16 @@ public class ABR {
 		return a;
 	
 	}*/
+	
+	public int key_face (face key)
+	{
+		if (this.contains(key))
+		{
+			return find(key).key;
+		} else {
+		
+		return (Integer) null;
+		}
+	}	
+	
 }

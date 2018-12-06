@@ -20,26 +20,8 @@ public class Pioche {
 	
 	// Méthodes 
 	
-	public void SaisiePioche()
-	{
-		int x=0;
-		int y=0;
-		int z=0;
-		
-		Scanner scan = new Scanner(System.in);
-		
-		System.out.println("Saisie des triominos");
-		
-		System.out.println("Saisir x : ");
-		scan.nextInt(x);
-		
-		
-		System.out.println("Saisir y : ");
-		scan.nextInt(y);
-		
-		System.out.println("Saisir z : ");
-		scan.nextInt(z);
-		
+	public void SaisiePioche(int x, int y, int z)
+	{		
 		triomino t = new triomino(x,y,z);
 		
 		this.pioche.add(t);

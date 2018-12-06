@@ -54,6 +54,11 @@ public class face {
 	{
 		this.name = name;
 	}
+	
+	public int get_Key_face()
+	{
+		return this.key;
+	}
 
 	public int compareTo(face b) {
 		// TODO Auto-generated method stub
