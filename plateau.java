@@ -10,6 +10,8 @@ public class plateau {
 	int ligne;         // Peut contenir jusqu'a 30 pieces
 	int colonne;  
 	ABR cote_libre;
+	int score;
+	
 	
 	// Constructeur
 	public plateau(int rempli) {
@@ -17,6 +19,8 @@ public class plateau {
 		ligne = 30;
 		colonne = 30;
 		plat = new triomino[ligne][colonne];
+		score = 0;
+		
 		
 		cote_libre = new ABR();
 
@@ -43,6 +47,8 @@ public class plateau {
 		ligne = 28;
 		colonne = 28;
 		plat = new triomino[ligne][colonne];
+		score = 0;
+		
 		
 		cote_libre = new ABR();
 
@@ -138,6 +144,40 @@ public class plateau {
 	}
 	
 	
+
+	public void SaisiePlateau_test(int x, int y, int z, int coordx, int coordy, int compt, int compt2, int compt3)
+	{
+		
+			// Saisie du triomino
+	
+			triomino t = new triomino(x,y,z);	
+			
+			// Saisie des coordonnées 
+		
+		if (this.plat[coordx][coordy].ne.getX() == -1)
+		{
+			// On ajoute ce triomino
+			this.plat[coordx][coordy] = t;
+
+			// On verifie si ses cotes sont libres et qu'ils ne dépassent pas notre plateau
+			if (this.plat[coordx+1][coordy].ne.getX() == -1 && (coordx+1 <= 28))
+			{
+				cote_libre.add(this.plat[coordx][coordy].ne);
+			}
+			if (this.plat[coordx][coordy+1].ne.getX() == -1 && (coordy+1 <= 28))
+			{
+				cote_libre.add(this.plat[coordx][coordy].south);
+			}
+			if (this.plat[coordx-1][coordy].ne.getX() == -1 && (coordx-1 >= 0))
+			{
+				cote_libre.add(this.plat[coordx][coordy].no);
+			}
+			
+		} else { 
+			System.out.println("Erreur coordonnées, case occupée ou en dehors du terrain");
+		}
+	}
+	
 	
 	public void GetCellule(int x, int y)
 	{
@@ -146,16 +186,36 @@ public class plateau {
 		System.out.println("["+this.plat[x][y].get_south().getX()+","+ this.plat[x][y].get_south().getY() +"]");
 	}
 	
-	public void OuPlacerTriomino(int o)
+	public void OuPlacerTriomino(triomino t)
 	{
 		// Retourne les faces libre pour placer un triomino, ainsi que leur coordonnées
 		
-		System.out.println("Voici les côtés dispos");
-		for (int i = 0; i <= cote_libre.nbTrio; i++ )
+		if (this.cote_libre.contains(t.ne) == true || this.cote_libre.contains(t.no) || this.cote_libre.contains(t.south))
 		{
+			System.out.println("Voici les côtés dispos pour "+ t);
 		
-			//System.out.println("(" + cote_libre.find() + "," + cote_libre.find().getY() + ")");
+			for (int i = 0 ; i <= this.plat.length; i++)
+			{
+				for (int j = 0; j <= this.plat.length; j++)
+				{
+					if (this.cote_libre.find(t.ne) == this.plat[i][j].get_ne() ||
+						this.cote_libre.find(t.no) == this.plat[i][j].get_no() ||
+						this.cote_libre.find(t.south) == this.plat[i][j].get_south())
+					{
+						System.out.print(this.plat[i][j]);
+						System.out.println("(" + cote_libre.find(t.ne).getX() + "," + cote_libre.find(t.ne).getY() + ")");
+						System.out.println("(" + cote_libre.find(t.no).getX() + "," + cote_libre.find(t.no).getY() + ")");
+						System.out.println("(" + cote_libre.find(t.south).getX() + "," + cote_libre.find(t.south).getY() + ")");			
+					}
+				
+				}
+			}
 			
+		} else {
+			
+			System.out.println("Pas de côté dispo pour " + t.get_ne().getX() + " , "+ t.get_ne().getY());
+			System.out.println("Pas de côté dispo pour " + t.get_no().getX() + " , "+ t.get_no().getY());
+			System.out.println("Pas de côté dispo pour " + t.get_south().getX() + " , "+ t.get_south().getY());
 		}
 	}
 	
@@ -199,6 +259,9 @@ public class plateau {
 			this.cote_libre.find(t.ne).coordx = 14;
 			milieu.south.key= o;
 			System.out.println(cote_libre.find(milieu.south).key);
+			
+			this.score += t.points;
+			
 			return o;
 			
 		} else {
@@ -235,6 +298,8 @@ public class plateau {
 						t.ne.name = toString(o);
 						this.cote_libre.add(t.south);
 					
+						this.score =+ t.points;
+						
 						return o;
 					}
 				}
@@ -261,7 +326,8 @@ public class plateau {
 						t.ne.name = toString(o);
 						this.cote_libre.add(t.south);
 					
-					
+						this.score += t.points;
+							
 						return o;
 					}
 				}
@@ -288,7 +354,8 @@ public class plateau {
 						t.ne.name = toString(o);
 						this.cote_libre.add(t.ne);
 					
-					
+						this.score += t.points;
+						
 						return o;
 					}
 				}
