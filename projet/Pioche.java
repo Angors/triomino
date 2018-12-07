@@ -32,13 +32,25 @@ public class Pioche {
 		return this.pioche.size();
 	}
 	
-	public void RetirerPioche(triomino t)
+	public void RetirerPioche(int randy)
 	{
-		this.pioche.remove(t);
+		if (this.TaillePioche() == 0)
+		{
+			System.out.print("Pioche vide !");
+		} else {
+			this.pioche.remove(randy);
+		}
 	}
+		
 
 	public triomino get(int i) 
 	{
+		if (this.TaillePioche() == 0)
+		{
+			System.out.print("Pioche vide !");
+			return (triomino)null;
+		}
+		
 		return this.pioche.get(i);
 	}
 }

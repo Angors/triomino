@@ -2,8 +2,25 @@ package projet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Random;
 
 public class main {
+	
+	static Scanner scan = new Scanner(System.in);
+	
+	public static void TriominosAPlacer(ArrayList<triomino> main,int nb)
+	{
+		for (int i = 0; i < nb; i++)
+		{
+			int x = scan.nextInt();
+			int y = scan.nextInt();
+			int z = scan.nextInt();
+			
+			triomino saisie = new triomino(x,y,z);
+			main.add(saisie);
+		}
+	}
+	
 	public static void main(String[] args) {
 		
 		//www.mathcs.emory.edu/~cheung/Courses/323/Syllabus/Map/skip-list-impl.html
@@ -14,6 +31,10 @@ public class main {
 		Scanner scan = new Scanner(System.in);
 		
 		
+		//___________________________MAIN JOUEUR_____________________________//
+		
+		ArrayList<triomino> Main_Joueur= new ArrayList<triomino>(); 
+		Random rand = new Random();
 		
 		
 		
@@ -67,13 +88,50 @@ public class main {
 			
 			if (P.TaillePioche() == 0)
 			{
-				System.out.println("Pioche Vide" );
+				System.out.println("Pioche vide. Fin du jeu.");
 				return;
-			}
-				
-				
-			Jeu.OuPlacerTriomino();	
+			}	
 			
+			int o = 0;
+			
+			
+			// ________________________ JEU DU TRIOMINO ___________________________//
+		
+			System.out.println("Veuillez saisir le nombre de triomino que vous voulez en main");
+			
+			int nb = scan.nextInt();
+			
+			TriominosAPlacer(Main_Joueur, nb); // Saisie de la main du joueur
+			
+			// Jouer //
+				
+			while (Main_Joueur.isEmpty() == false || o == 30)
+			{
+				if(Main_Joueur.size() == 1 && P.pioche.size() > 0)
+				{
+					int randy = rand.nextInt(P.pioche.size());
+					Main_Joueur.add(P.get(randy));
+					P.RetirerPioche(randy);
+				}
+				
+				if(Main_Joueur.size() == 1 && P.pioche.size() == 0)
+				{
+					o = Jeu.ajouter_SL(Main_Joueur.get(0), o);
+					Main_Joueur.remove(0);
+				}
+				
+				System.out.println("Saisissez quel Triomino jouer");
+				int x = scan.nextInt();
+				
+				if(x >= 0 && x < Main_Joueur.size()) 
+				{
+					o = Jeu.ajouter_SL(Main_Joueur.get(x), o);
+					Main_Joueur.remove(x);
+				}
+			}
+							  // Ou pour eviter les boucles infinis
+				
+				
 			
 				
 			/*	
@@ -152,9 +210,14 @@ public class main {
 					return;
 				}
 					
-					
+				int o = 0; // Initialisation du nombre de coup en début de partie
+				
 				Jeu_ABR.OuPlacerTriomino(P.get(1));	
 				
+				// Probleme ajout sur ABR
+				
+				o = Jeu_ABR.ajouter_SL(P.get(1), o);
+				o = Jeu_ABR.ajouter_SL(P.get(0), o);
 				
 				
 			} else {
