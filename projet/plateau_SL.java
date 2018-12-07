@@ -184,7 +184,7 @@ public class plateau_SL {
 		System.out.println("["+this.plat[x][y].get_south().getX()+","+ this.plat[x][y].get_south().getY() +"]");
 	}
 	
-	public void OuPlacerTriomino()
+	public void OuPlacerTriomino(triomino t)
 	{
 		// Retourne les faces libre pour placer un triomino, ainsi que leur coordonnées
 		
@@ -195,14 +195,15 @@ public class plateau_SL {
 		
 		} else {
 		
-			System.out.println("Voici les côtés dispos");
+			System.out.println("Voici les côtés dispos pour "+ t);
 		
 		
 			for (int i = 0; i <= cote_libre.n; i++ )
 			{
+				if (cote_libre.get(toString(i)) == t.ne || cote_libre.get(toString(i)) == t.south || cote_libre.get(toString(i)) == t.no )
 		
 				System.out.println("(" + cote_libre.get(toString(i)).getX() + "," + cote_libre.get(toString(i)).getY() + ")");
-			
+				
 			}
 		}
 	}
@@ -241,122 +242,128 @@ public class plateau_SL {
 			
 			this.cote_libre.put(toString(o),t.south);
 			
-			System.out.println("Tour 1 fait");
+			
 			return o;
 			
 		} else {
-			System.out.println("Test conditionnel");
+		
 			// On recherche parmis les côtés libres si on peut ajouter le triomino
 			for (int i = 0; i <= cote_libre.n; i++)
 			{
-				System.out.println("TEST ITERATIF");
-				System.out.println(this.cote_libre.get(toString(i)).getX());
 				if (this.cote_libre.get(toString(i)).getX() == t.ne.getX()
 						&& t.ne.getY() == this.cote_libre.get(toString(i)).getY())
 				{
 					
-					System.out.println("Test conditionnelle 2");
-					// Colonne impaire
-					if((this.plat[cote_libre.get(toString(i)).get_coordx()+2][cote_libre.get(toString(i)).get_coordy()].get_ne().getX() == -1 || 
-						this.plat[cote_libre.get(toString(i)).get_coordx()+2][cote_libre.get(toString(i)).get_coordy()].get_no() == t.no) 
-							&&
-						(this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()-1].get_south() == t.south || 
-						this.plat[cote_libre.get(toString(i)).get_coordx()+2][cote_libre.get(toString(i)).get_coordy()].get_ne().getX() == -1))
+		/*			if (cote_libre.get(toString(i)).get_coordx() % 2 != 0)
 					{
-					// On peut alors ajouté à droite 
+						// Colonne impaire
+						if (cote_libre.get(toString(i)).get_coordy() % 2 != 0)
+						{
+						  */
+							if((this.plat[cote_libre.get(toString(i)).get_coordx()+2][cote_libre.get(toString(i)).get_coordy()].get_ne().getX() == -1 || 
+							this.plat[cote_libre.get(toString(i)).get_coordx()+2][cote_libre.get(toString(i)).get_coordy()].get_no() == t.no) 
+									&&
+									(this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()-1].get_south() == t.south || 
+									this.plat[cote_libre.get(toString(i)).get_coordx()+2][cote_libre.get(toString(i)).get_coordy()].get_ne().getX() == -1))
+							{
+								// On peut alors ajouté à droite 
 					
-						this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()] = t;
+								this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()] = t;
 					
 					
-						// Maintenant que le triomino t est ajouté on doit modifier nos côtés libres de notre SD. Ici notre côté
-						// i n'est plus disponible. On ajoute alors t.no et t.south aux côtés libres et on retire t.ne
+								// Maintenant que le triomino t est ajouté on doit modifier nos côtés libres de notre SD. Ici notre côté
+								// i n'est plus disponible. On ajoute alors t.no et t.south aux côtés libres et on retire t.ne
 					
-						this.cote_libre.remove(toString(i));
+							
+							
+							o +=1;
+							
+							t.no.set_coordx(cote_libre.get(toString(i)).get_coordx()+1);
+							t.no.set_coordy(cote_libre.get(toString(i)).get_coordy());
+							this.cote_libre.put(toString(o),t.no);
 						
-						o +=1;
+							o +=1;
+							
+							t.south.set_coordx(cote_libre.get(toString(i)).get_coordx()+1);
+							t.south.set_coordx(cote_libre.get(toString(i)).get_coordy());
+							this.cote_libre.put(toString(o),t.south);
 						
-						t.no.set_coordx(cote_libre.get(toString(i)).get_coordx()+1);
-						t.no.set_coordy(cote_libre.get(toString(i)).get_coordy());
-						this.cote_libre.put(toString(o),t.no);
-					
-						o +=1;
-						
-						t.south.set_coordx(cote_libre.get(toString(i)).get_coordx()+1);
-						t.south.set_coordx(cote_libre.get(toString(i)).get_coordy());
-						this.cote_libre.put(toString(o),t.south);
-					
-						return o;
+							this.cote_libre.remove(toString(i));
+							
+							return o;
+						}
 					}
-				}
-				if (this.cote_libre.get(toString(i)).getX() == t.no.getX()
-						&& t.no.getY() == this.cote_libre.get(toString(i)).getY())
-				{
-					System.out.println("Test conditionnelle 3");
-					if((this.plat[cote_libre.get(toString(i)).get_coordx()-2][cote_libre.get(toString(i)).get_coordy()].get_no().getX() == -1 || 
-						this.plat[cote_libre.get(toString(i)).get_coordx()-2][cote_libre.get(toString(i)).get_coordy()].get_ne() == t.ne) 
-							&&
-						this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()-1].get_south() == t.south || 
-						this.plat[cote_libre.get(toString(i)).get_coordx()-2][cote_libre.get(toString(i)).get_coordy()].get_ne().getX() == -1)
+					if (this.cote_libre.get(toString(i)).getX() == t.no.getX()
+							&& t.no.getY() == this.cote_libre.get(toString(i)).getY())
 					{
-						// On peut alors ajouté à gauche 
-						this.plat[cote_libre.get(toString(i)).get_coordx()-1][cote_libre.get(toString(i)).get_coordy()] = t;
 					
-
-						// Maintenant que le triomino t est ajouté on doit modifier nos côtés libres de notre SD. Ici notre côté
-						// i n'est plus disponible. On ajoute alors t.ne et t.south aux côtés libres
-					
-						this.cote_libre.remove(toString(i));
+						if((this.plat[cote_libre.get(toString(i)).get_coordx()-2][cote_libre.get(toString(i)).get_coordy()].get_no().getX() == -1 || 
+							this.plat[cote_libre.get(toString(i)).get_coordx()-2][cote_libre.get(toString(i)).get_coordy()].get_ne() == t.ne) 
+								&&
+							this.plat[cote_libre.get(toString(i)).get_coordx()-1][cote_libre.get(toString(i)).get_coordy()-1].get_south() == t.south || 
+							this.plat[cote_libre.get(toString(i)).get_coordx()-2][cote_libre.get(toString(i)).get_coordy()].get_ne().getX() == -1)
+						{
+							// On peut alors ajouté à gauche 
+							this.plat[cote_libre.get(toString(i)).get_coordx()-1][cote_libre.get(toString(i)).get_coordy()] = t;
 						
-						o +=1;
+	
+							// Maintenant que le triomino t est ajouté on doit modifier nos côtés libres de notre SD. Ici notre côté
+							// i n'est plus disponible. On ajoute alors t.ne et t.south aux côtés libres
 						
-						t.ne.set_coordx(cote_libre.get(toString(i)).get_coordx()-1);
-						t.ne.set_coordy(cote_libre.get(toString(i)).get_coordy());
-						this.cote_libre.put(toString(o), t.ne);
-					
-						o +=1;
-					
-						t.south.set_coordx(cote_libre.get(toString(i)).get_coordx()-1);
-						t.south.set_coordy(cote_libre.get(toString(i)).get_coordy());
-						this.cote_libre.put(toString(o), t.south);
-					
-					
-						return o;
+							this.cote_libre.remove(toString(i));
+							
+							o +=1;
+							
+							t.ne.set_coordx(cote_libre.get(toString(i)).get_coordx()-1);
+							t.ne.set_coordy(cote_libre.get(toString(i)).get_coordy());
+							this.cote_libre.put(toString(o), t.ne);
+						
+							o +=1;
+						
+							t.south.set_coordx(cote_libre.get(toString(i)).get_coordx()-1);
+							t.south.set_coordy(cote_libre.get(toString(i)).get_coordy());
+							this.cote_libre.put(toString(o), t.south);
+						
+						
+							return o;
+						}
 					}
-				}
-				if (this.cote_libre.get(toString(i)).getX() == t.south.getX()
-						&& t.south.getY() == this.cote_libre.get(toString(i)).getY())
-				{
-					System.out.println("Test conditionnelle 3");
-					if((this.plat[cote_libre.get(toString(i)).get_coordx()-1][cote_libre.get(toString(i)).get_coordy()+1].get_ne().getX() == -1 || 
-						this.plat[cote_libre.get(toString(i)).get_coordx()-1][cote_libre.get(toString(i)).get_coordy()+1].get_no() == t.no) 
-							&&
-						this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()+1].get_ne() == t.ne || 
-						this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()+1].get_ne().getX() == -1)
+					if (this.cote_libre.get(toString(i)).getX() == t.south.getX()
+							&& t.south.getY() == this.cote_libre.get(toString(i)).getY())
 					{
-						// On peut alors ajouté en bas 
-						this.plat[cote_libre.get(toString(i)).get_coordx()][cote_libre.get(toString(i)).get_coordy()+1] = t;
-				
-
-						// Maintenant que le triomino t est ajouté on doit modifier nos côtés libres de notre SD. Ici notre côté
-						// i n'est plus disponible. On ajoute alors t.no et t.ne aux côtés libres
-					
-						this.cote_libre.remove(toString(i));
 						
-						o +=1;
-		
-						t.no.set_coordx(cote_libre.get(toString(i)).get_coordx()); // la face prends les coordonnées de sa case
-						t.no.set_coordy(cote_libre.get(toString(i)).get_coordy()+1);
-						this.cote_libre.put(toString(o),t.no);
+						if((this.plat[cote_libre.get(toString(i)).get_coordx()-1][cote_libre.get(toString(i)).get_coordy()+1].get_ne().getX() == -1 || 
+							this.plat[cote_libre.get(toString(i)).get_coordx()-1][cote_libre.get(toString(i)).get_coordy()+1].get_no() == t.no) 
+								&&
+							this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()+1].get_ne() == t.ne || 
+							this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()+1].get_ne().getX() == -1)
+						{
+							// On peut alors ajouté en bas 
+							this.plat[cote_libre.get(toString(i)).get_coordx()][cote_libre.get(toString(i)).get_coordy()+1] = t;
 					
-						o +=1;
-						t.ne.set_coordx(cote_libre.get(toString(i)).get_coordx());
-						t.ne.set_coordy(cote_libre.get(toString(i)).get_coordy()+1);
-						this.cote_libre.put(toString(o),t.ne);
-					
-					
-						return o;
-					}
-				}
+	
+							// Maintenant que le triomino t est ajouté on doit modifier nos côtés libres de notre SD. Ici notre côté
+							// i n'est plus disponible. On ajoute alors t.no et t.ne aux côtés libres
+						
+							this.cote_libre.remove(toString(i));
+							
+							o +=1;
+			
+							t.no.set_coordx(cote_libre.get(toString(i)).get_coordx()); // la face prends les coordonnées de sa case
+							t.no.set_coordy(cote_libre.get(toString(i)).get_coordy()+1);
+							this.cote_libre.put(toString(o),t.no);
+						
+							o +=1;
+							t.ne.set_coordx(cote_libre.get(toString(i)).get_coordx());
+							t.ne.set_coordy(cote_libre.get(toString(i)).get_coordy()+1);
+							this.cote_libre.put(toString(o),t.ne);
+						
+						
+							return o;
+						}
+					  }
+				//	} 
+			//	}
 			}
 			// /!\ A prendre en compte les cas particuliers 
 			// Proposition de Théo : Prendre un périmetre de trois/deux triominos et travailler sur les cotes adjancents sur lesquels on s'interesse
