@@ -1,8 +1,7 @@
 package projet;
-
 import java.util.Scanner;
 
-public class plateau_SL {
+public class plateau_SL_test {
 // Classe concernant le plateau de jeu
 // Note : Avec une SkipList
 	
@@ -10,17 +9,13 @@ public class plateau_SL {
 	int ligne;         // Peut contenir jusqu'a 30 pieces
 	int colonne;  
 	SkipList cote_libre;
-	int score;
-	
 	
 	// Constructeur
-	public plateau_SL(int rempli) {
+	public plateau_SL_test(int rempli) {
 		
 		ligne = 28;
 		colonne = 28;
 		plat = new triomino[ligne][colonne];
-		score = 0;
-		
 		
 		cote_libre = new SkipList();
 
@@ -37,13 +32,11 @@ public class plateau_SL {
 		
 	}
 	
-	public plateau_SL()
+	public plateau_SL_test()
 	{
 		ligne = 28;
 		colonne = 28;
 		plat = new triomino[ligne][colonne];
-		score = 0;
-		
 		
 		cote_libre = new SkipList();
 
@@ -190,7 +183,7 @@ public class plateau_SL {
 		System.out.println("["+this.plat[x][y].get_south().getX()+","+ this.plat[x][y].get_south().getY() +"]");
 	}
 	
-	public void OuPlacerTriomino(triomino t)
+	public void OuPlacerTriomino()
 	{
 		// Retourne les faces libre pour placer un triomino, ainsi que leur coordonnées
 		
@@ -201,15 +194,14 @@ public class plateau_SL {
 		
 		} else {
 		
-			System.out.println("Voici les côtés dispos pour "+ t);
+			System.out.println("Voici les côtés dispos");
 		
 		
 			for (int i = 0; i <= cote_libre.n; i++ )
 			{
-				if (cote_libre.get(toString(i)) == t.ne || cote_libre.get(toString(i)) == t.south || cote_libre.get(toString(i)) == t.no )
 		
 				System.out.println("(" + cote_libre.get(toString(i)).getX() + "," + cote_libre.get(toString(i)).getY() + ")");
-				
+			
 			}
 		}
 	}
@@ -248,11 +240,14 @@ public class plateau_SL {
 			
 			this.cote_libre.put(toString(o),t.south);
 			
-			this.score += t.points;
+			
 			return o;
 			
 		} else {
-		
+		// _________________________________________________________________________________//
+			
+			// this.plat[COLONNE][LIGNE]
+			
 			// On recherche parmis les côtés libres si on peut ajouter le triomino
 			for (int i = 0; i <= cote_libre.n; i++)
 			{
@@ -260,12 +255,14 @@ public class plateau_SL {
 						&& t.ne.getY() == this.cote_libre.get(toString(i)).getY())
 				{
 					
-		/*			if (cote_libre.get(toString(i)).get_coordx() % 2 != 0)
+					if (cote_libre.get(toString(i)).get_coordx() % 2 != 0)
 					{
 						// Colonne impaire
 						if (cote_libre.get(toString(i)).get_coordy() % 2 != 0)
 						{
-						  */
+						  
+							
+							// _________________________________Test à droite___________________________//
 							if((this.plat[cote_libre.get(toString(i)).get_coordx()+2][cote_libre.get(toString(i)).get_coordy()].get_ne().getX() == -1 || 
 							this.plat[cote_libre.get(toString(i)).get_coordx()+2][cote_libre.get(toString(i)).get_coordy()].get_no() == t.no) 
 									&&
@@ -280,7 +277,7 @@ public class plateau_SL {
 								// Maintenant que le triomino t est ajouté on doit modifier nos côtés libres de notre SD. Ici notre côté
 								// i n'est plus disponible. On ajoute alors t.no et t.south aux côtés libres et on retire t.ne
 					
-							
+							this.cote_libre.remove(toString(i));
 							
 							o +=1;
 							
@@ -294,13 +291,12 @@ public class plateau_SL {
 							t.south.set_coordx(cote_libre.get(toString(i)).get_coordy());
 							this.cote_libre.put(toString(o),t.south);
 						
-							this.cote_libre.remove(toString(i));
-							
-							this.score += t.points;
-							
 							return o;
 						}
 					}
+						
+						
+					// ___________________________________Test à gauche____________________________________//
 					if (this.cote_libre.get(toString(i)).getX() == t.no.getX()
 							&& t.no.getY() == this.cote_libre.get(toString(i)).getY())
 					{
@@ -308,7 +304,7 @@ public class plateau_SL {
 						if((this.plat[cote_libre.get(toString(i)).get_coordx()-2][cote_libre.get(toString(i)).get_coordy()].get_no().getX() == -1 || 
 							this.plat[cote_libre.get(toString(i)).get_coordx()-2][cote_libre.get(toString(i)).get_coordy()].get_ne() == t.ne) 
 								&&
-							this.plat[cote_libre.get(toString(i)).get_coordx()-1][cote_libre.get(toString(i)).get_coordy()-1].get_south() == t.south || 
+							this.plat[cote_libre.get(toString(i)).get_coordx()+1][cote_libre.get(toString(i)).get_coordy()-1].get_south() == t.south || 
 							this.plat[cote_libre.get(toString(i)).get_coordx()-2][cote_libre.get(toString(i)).get_coordy()].get_ne().getX() == -1)
 						{
 							// On peut alors ajouté à gauche 
@@ -332,10 +328,13 @@ public class plateau_SL {
 							t.south.set_coordy(cote_libre.get(toString(i)).get_coordy());
 							this.cote_libre.put(toString(o), t.south);
 						
-							this.score += t.points;
+						
 							return o;
 						}
 					}
+					
+					
+					//________________________________Test au sud__________________________________//
 					if (this.cote_libre.get(toString(i)).getX() == t.south.getX()
 							&& t.south.getY() == this.cote_libre.get(toString(i)).getY())
 					{
@@ -366,13 +365,12 @@ public class plateau_SL {
 							t.ne.set_coordy(cote_libre.get(toString(i)).get_coordy()+1);
 							this.cote_libre.put(toString(o),t.ne);
 						
-							this.score += t.points;
-								
+						
 							return o;
 						}
 					  }
-				//	} 
-			//	}
+					} 
+				}
 			}
 			// /!\ A prendre en compte les cas particuliers 
 			// Proposition de Théo : Prendre un périmetre de trois/deux triominos et travailler sur les cotes adjancents sur lesquels on s'interesse

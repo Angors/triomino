@@ -10,6 +10,8 @@ public class triomino {
 	String nbcoup; // Nom du triomino
 	int Cmax = 5,Cmin = -1; // Constante de limite des valeurs triominos
 	
+	int points;
+	
 	//Constructeur
 	public triomino(int x,int y,int z)
 	{
@@ -22,6 +24,9 @@ public class triomino {
 	    {
 	    	System.out.print("erreur dans les valeurs saisies");
 	    }
+		
+		points = x + y + z;
+		
 	}
 
 	public triomino() {
